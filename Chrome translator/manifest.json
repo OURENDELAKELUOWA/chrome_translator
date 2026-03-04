@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "DeepSeek Translator | 深度求索翻译",
+  "version": "1.0.0",
+  "description": "High-quality translations powered by DeepSeek AI. / 由 DeepSeek AI 驱动的高质量翻译插件。",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "DeepSeek Translate"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "utils/logger.js",
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "commands": {
+    "toggle-translation": {
+      "suggested_key": {
+        "default": "Alt+Q",
+        "mac": "Alt+Q"
+      },
+      "description": "Toggle between original and translated text"
+    }
+  }
+}

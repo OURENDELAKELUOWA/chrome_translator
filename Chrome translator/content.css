@@ -1,0 +1,173 @@
+/* Tooltip container */
+.deepseek-translator-tooltip {
+    position: fixed;
+    z-index: 2147483647;
+    /* Max z-index */
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.4;
+    max-width: 400px;
+    pointer-events: none;
+    /* Let mouse pass through */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(4px);
+    transition: opacity 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.deepseek-translator-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Optional: Highlight parsed segments on hover for debugging or user feedback */
+/* 
+.deepseek-translated-node:hover {
+    background-color: rgba(255, 255, 0, 0.1);
+} 
+*/
+
+/* Video Subtitle Translation Overlay */
+.deepseek-subtitle-translation {
+    pointer-events: none;
+    /* Don't block video controls */
+    z-index: 10;
+    transition: opacity 0.15s ease;
+}
+
+.deepseek-subtitle-translation div {
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+
+/* ---- Floating Transcript Panel ---- */
+
+.deepseek-transcript-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.2s, transform 0.2s;
+    user-select: none;
+}
+
+.deepseek-transcript-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.1);
+}
+
+.deepseek-transcript-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 400px;
+    background: #1a1b1e;
+    border-radius: 8px;
+    margin-top: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    font-family: "Inter", "Microsoft YaHei", system-ui, sans-serif;
+    font-size: 13px;
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+.deepseek-transcript-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #252629;
+    border-bottom: 1px solid #333;
+    flex-shrink: 0;
+}
+
+.deepseek-transcript-close:hover {
+    color: #ff6b6b;
+}
+
+.deepseek-transcript-download:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.deepseek-transcript-status {
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #888;
+    background: #1e1f22;
+    border-bottom: 1px solid #2a2b2e;
+    flex-shrink: 0;
+}
+
+.deepseek-transcript-content {
+    overflow-y: auto;
+    flex: 1;
+    padding: 4px 0;
+}
+
+.deepseek-transcript-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.deepseek-transcript-content::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+.deepseek-transcript-row {
+    display: flex;
+    gap: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+}
+
+.deepseek-transcript-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.deepseek-transcript-active {
+    background: rgba(79, 70, 229, 0.15) !important;
+    border-left-color: #6366f1 !important;
+}
+
+.deepseek-transcript-time {
+    flex-shrink: 0;
+    width: 40px;
+    color: #6366f1;
+    font-size: 11px;
+    font-weight: 500;
+    padding-top: 2px;
+    font-variant-numeric: tabular-nums;
+}
+
+.deepseek-transcript-texts {
+    flex: 1;
+    min-width: 0;
+}
+
+.deepseek-transcript-en {
+    color: #ccc;
+    line-height: 1.4;
+    margin-bottom: 2px;
+}
+
+.deepseek-transcript-zh {
+    color: #FFD700;
+    line-height: 1.4;
+    font-size: 12px;
+}

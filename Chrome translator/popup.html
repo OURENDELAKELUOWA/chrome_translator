@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Translator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Specific overrides for popup */
+        body {
+            width: 360px;
+            height: 480px;
+            overflow-y: auto;
+        }
+
+        .result-area {
+            min-height: 100px;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .result-area:hover .copy-btn {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <h1><span class="logo-text">DeepSeek</span> Translator</h1>
+            </div>
+            <button id="btn-settings" class="btn btn-icon" title="设置 / Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                    </path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Alert for missing key -->
+        <div id="api-key-alert" class="card mb-2"
+            style="background-color: #fff1f2; border-color: #fca5a5; color: #9f1239; display: none;">
+            <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span class="text-xs font-medium">Please set your API Key in settings.</span>
+            </div>
+        </div>
+
+        <!-- Language Selectors -->
+        <div class="flex gap-2 mb-2">
+            <div class="w-full">
+                <!-- <label for="source-lang">From</label> -->
+                <select id="source-lang">
+                    <option value="auto">Wait Detection (Auto)</option>
+                    <option value="zh">Chinese</option>
+                    <option value="en">English</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="es">Spanish</option>
+                </select>
+            </div>
+            <div class="flex items-center justify-center p-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="text-secondary">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </div>
+            <div class="w-full">
+                <!-- <label for="target-lang">To</label> -->
+                <select id="target-lang">
+                    <option value="zh">Chinese</option>
+                    <option value="en" selected>English</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="es">Spanish</option>
+                    <option value="ru">Russian</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="mb-4">
+            <textarea id="input-text" placeholder="Enter text to translate..."></textarea>
+
+            <div class="flex items-center gap-2 mt-2">
+                <input type="checkbox" id="auto-translate-toggle" style="width: auto; margin: 0;">
+                <label for="auto-translate-toggle" style="margin: 0; cursor: pointer;">Enable Auto-Translate for
+                    Webpages</label>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <button id="btn-translate" class="btn btn-primary w-full shadow-md">
+            <span class="spinner"></span>
+            <span>Translate</span>
+        </button>
+
+        <!-- Token Usage Display -->
+        <div class="flex items-center justify-between mt-2">
+            <span id="token-usage" class="text-xs text-secondary" style="font-size: 11px;">Tokens: 0</span>
+            <button id="btn-exclude-domain" class="text-xs text-secondary hover:text-red-500"
+                style="background:none; border:none; cursor:pointer;">
+                Stop translating this site
+            </button>
+        </div>
+
+        <!-- Result Area -->
+        <div class="mt-4">
+            <label>Translation Result</label>
+            <div class="card result-area" id="output-text">
+                <span class="text-secondary text-sm">Translation will appear here...</span>
+                <button class="btn btn-icon copy-btn" id="btn-copy" title="Copy">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>

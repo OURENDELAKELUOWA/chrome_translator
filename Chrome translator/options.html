@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Translator Settings</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card shadow-md">
+        <header class="mb-4">
+            <h1><span class="logo-text">DeepSeek</span> Settings</h1>
+            <p class="text-secondary text-sm mt-2">Configure your API connection.</p>
+        </header>
+
+        <div class="mb-4">
+            <label for="api-key">API Key</label>
+            <input type="password" id="api-key" placeholder="sk-..." class="mt-2" autocomplete="off">
+            <p class="text-secondary text-xs mt-2">
+                You can get your API Key from the <a href="https://platform.deepseek.com/" target="_blank"
+                    style="color: var(--primary-color);">DeepSeek Platform</a>.
+                <br>Your key is stored locally in your browser and is never shared with anyone else.
+            </p>
+        </div>
+
+        <div class="mb-4">
+            <label for="model-select">Model (Optional)</label>
+            <select id="model-select" class="mt-2">
+                <option value="deepseek-chat">deepseek-chat (V3)</option>
+                <option value="deepseek-reasoner">deepseek-reasoner (R1)</option>
+            </select>
+        </div>
+
+        <div class="mb-4 p-3 bg-slate-50 border border-slate-200 rounded">
+            <h3 class="text-sm font-medium mb-2">Statistics</h3>
+            <div class="flex justify-between text-sm">
+                <span class="text-secondary">Total Tokens Used:</span>
+                <span id="total-tokens-display" class="font-medium">Loading...</span>
+            </div>
+        </div>
+
+        <div class="mb-4 p-3 bg-slate-50 border border-slate-200 rounded">
+            <h3 class="text-sm font-medium mb-2">Excluded Domains</h3>
+            <p class="text-xs text-secondary mb-2">These sites will never be auto-translated.</p>
+            <ul id="excluded-list" class="text-sm space-y-1" style="list-style: none; padding: 0;">
+                <!-- List items will be injected here -->
+            </ul>
+        </div>
+
+        <div class="mb-4 p-3 bg-slate-50 border border-slate-200 rounded">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-sm font-medium">Debug Logs</h3>
+                <div class="flex gap-2">
+                    <button id="btn-refresh-logs" class="text-xs text-primary btn-icon">Refresh</button>
+                    <button id="btn-clear-logs" class="text-xs text-red-500 btn-icon">Clear</button>
+                </div>
+            </div>
+            <textarea id="log-viewer" readonly style="width: 100%; height: 150px; font-family: monospace; font-size: 11px; white-space: pre; border-color: #e2e8f0; background: #f8fafc; color: #334155;"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+            <button id="btn-save" class="btn btn-primary">Save Settings</button>
+        </div>
+
+        <div id="status-msg" class="mt-4 text-center text-sm font-medium"
+            style="opacity: 0; transition: opacity 0.3s; color: #10b981;">
+            Settings Saved!
+        </div>
+    </div>
+    <script src="options.js"></script>
+</body>
+
+</html>
