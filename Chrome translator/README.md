@@ -1,113 +1,191 @@
-# DeepSeek Translator | 深度求索翻译
+# LinguaBridge
 
-A Chrome extension for high-quality webpage and video subtitle translation, powered by DeepSeek AI.
-
-一款由 DeepSeek AI 驱动的 Chrome 翻译插件，支持网页全文翻译和视频双语字幕。
+> Omnidirectional web translation and bilingual video subtitles — any language to any language.
 
 ![Chrome Extension](https://img.shields.io/badge/Platform-Chrome-brightgreen) ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## ✨ Features | 功能特色
+LinguaBridge is a Chrome extension for translating webpages and video subtitles between any languages. It handles modern web architecture (SPAs, Shadow DOM, dynamic content) and provides real-time bilingual subtitle overlays for online course videos — with one-click transcript export for study and reference.
 
-### 🌐 Webpage Translation | 网页翻译
-- **Full-page translation** with intelligent text node detection
-- **Hover tooltip** showing original text when hovering over translated content
-- **Toggle switch** (Alt+Q) to switch between original and translated text
-- **Smart SPA support** — handles dynamic content, React/Vue re-renders without flickering
-- **Shadow DOM traversal** for complex web components
+---
 
-### 🎬 Video Subtitle Translation | 视频字幕翻译
-- **Bilingual subtitle overlay** — Chinese translation displayed below English captions
-- **Context-aware translation** — uses surrounding subtitles for more natural translations
-- **Live transcript panel** with synchronized highlighting
-- **Transcript download** — export bilingual subtitles as `.txt` file with course metadata
-- Supports **Video.js** (Great Learning) and **JW Player** (Skilljar/Anthropic Courses)
+## Features
 
-### 🎯 Supported Platforms | 支持的平台
-| Platform | Page Translation | Video Subtitles |
-|----------|:---:|:---:|
-| Any website | ✅ | — |
-| Great Learning (Olympus) | ✅ | ✅ |
-| Skilljar (Anthropic Courses) | ✅ | ✅ |
+### Page Translation
+- Full-page translation with deep DOM traversal and text node detection
+- Shadow DOM penetration — works inside Web Components and custom element trees
+- SPA-compatible — handles React, Vue, Angular re-renders without flickering
+- Context-preserving — groups adjacent text nodes across `<b>`, `<a>`, `<span>` for coherent sentence-level translation
+- Hover tooltip — see original text on hover for any translated element
+- Toggle hotkey (Alt+Q) — switch between original and translated text globally
 
-## 📦 Installation | 安装方法
+### Video Subtitle Translation
+- Bilingual subtitle overlay — translated captions rendered below originals in real-time
+- Context-aware — sends surrounding subtitle lines as context for natural, coherent translations
+- Live transcript panel — synchronized, scrolling bilingual transcript alongside the video
+- Transcript export — download bilingual subtitles as `.txt` with timestamps and course metadata
+- Supported players: Video.js (Great Learning / Olympus), JW Player (Skilljar / Anthropic Academy)
 
-### From Source (Developer Mode)
+### Knowledge Capture
+- Video → text — turn hours of video content into downloadable, searchable bilingual notes with one click
+- Structured export — timestamps, course name, video title included; ready for Notion, Obsidian, or any note-taking workflow
+- Bilingual output — every translation preserves both languages, useful for language learners building vocabulary in context
 
-1. Clone or download this repository
+### Translation Engine
+- Multi-provider architecture — pluggable AI backend (currently DeepSeek V3/R1; Claude, GPT, Gemini planned)
+- Batch translation with intelligent node grouping for fewer API calls and better context
+- JSON-structured prompts for consistent, parseable output
+- In-memory translation cache to avoid redundant API calls
+- Real-time token usage tracking
+
+### Automation
+- Auto-translate on page load (configurable)
+- Per-domain exclusion list
+- Right-click context menu translation for selected text
+- 8 target languages with auto-detection
+
+---
+
+## Supported Platforms
+
+| Platform | Page | Subtitles | Notes |
+|----------|:---:|:---:|-------|
+| Any website | Yes | — | Universal |
+| Great Learning (Olympus) | Yes | Yes | Video.js |
+| Skilljar (Anthropic Academy) | Yes | Yes | JW Player |
+| YouTube | Yes | Planned | |
+| Bilibili | Yes | Planned | |
+| Coursera / Udemy / edX | Yes | Planned | |
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Chrome Extension (MV3)                │
+├──────────────┬──────────────────┬───────────────────────┤
+│  Popup UI    │   Options Page   │   Background Worker   │
+│  (popup.*)   │   (options.*)    │   (background.js)     │
+│              │                  │   - API gateway       │
+│              │                  │   - Port management   │
+│              │                  │   - Context menus     │
+├──────────────┴──────────────────┴───────────────────────┤
+│                   Content Script Layer                   │
+│  ┌─────────────────────┐  ┌───────────────────────────┐ │
+│  │  Page Translator     │  │  Subtitle Engine          │ │
+│  │  - DOM walker        │  │  - Player detection       │ │
+│  │  - Shadow DOM        │  │  - Cue observer           │ │
+│  │  - MutationObserver  │  │  - Overlay renderer       │ │
+│  │  - Anti-flicker      │  │  - Transcript panel       │ │
+│  │  - Tooltip system    │  │  - Context windowing      │ │
+│  └─────────────────────┘  └───────────────────────────┘ │
+├─────────────────────────────────────────────────────────┤
+│              AI Translation Pipeline                     │
+│  - Multi-provider abstraction                            │
+│  - Batch grouping & context injection                    │
+│  - JSON-structured response parsing                      │
+│  - In-memory translation cache                           │
+│  - Token tracking & budget management                    │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Technical Design Notes
+
+### SPA Anti-Flicker
+Modern SPAs constantly re-render DOM nodes, which causes visible flickering with naive translation approaches. LinguaBridge stores translated state on parent elements (`data-linguabridge-original`, `data-linguabridge-translated`). When a framework re-renders a child text node, the MutationObserver detects the parent's annotation and restores the translation instantly — no flicker, no re-translation.
+
+### Shadow DOM Traversal
+Standard `querySelectorAll` cannot reach inside shadow roots. LinguaBridge implements recursive shadow root traversal to discover and observe text nodes across the entire component tree, including nested shadow boundaries.
+
+### Context-Aware Translation
+HTML frequently splits sentences across multiple elements (`<b>`, `<a>`, `<span>`). Translating each node independently breaks grammar. LinguaBridge groups adjacent text nodes and sends them as a JSON array with cross-node context, producing translations that read as natural prose.
+
+### Video Subtitle Synchronization
+Video players (Video.js, JW Player) use different APIs and cue event systems. LinguaBridge abstracts over them with a unified cue observer that maintains a sliding context window of surrounding subtitles and renders translated overlays in sync with the timeline, without blocking native player controls.
+
+### MutationObserver Design
+A single global MutationObserver watches the entire document (including dynamically added shadow roots). A structural check (`[data-linguabridge-ui]`) prevents observer loops from our own UI injections. Debounced batch processing minimizes performance impact on heavy SPAs.
+
+---
+
+## Roadmap
+
+### Shipped
+- [x] Full-page translation with Shadow DOM support
+- [x] SPA anti-flicker system
+- [x] Bilingual video subtitle overlay (Video.js + JW Player)
+- [x] Live transcript panel with bilingual export
+- [x] Translation caching & token tracking
+- [x] Auto-translate with domain exclusion
+- [x] Context menu translation
+- [x] 8-language support with auto-detection
+
+### Next: Broader Video Platform Support
+- [ ] YouTube / Bilibili / Niconico / Vimeo subtitle translation
+- [ ] Coursera / Udemy / edX course subtitle support
+- [ ] Generic HTML5 video + embedded player support
+- [ ] Multi-provider AI backend (Claude, GPT, Gemini, local models)
+- [ ] Expand to 50+ language pairs
+
+### Planned: Learning & Intelligence
+- [ ] Vocabulary builder — auto-collect words from browsing with context
+- [ ] Spaced repetition export (Anki / Quizlet)
+- [ ] Video knowledge base — organize transcripts by course/topic
+- [ ] AI-powered study note generation from transcripts
+- [ ] One-click export to Notion / Obsidian / Google Docs
+- [ ] Translation memory with user correction learning
+- [ ] Domain-specific terminology packs (medical, legal, engineering)
+- [ ] Offline mode with on-device models
+
+### Future
+- [ ] Cross-browser support (Firefox, Safari, Edge)
+- [ ] PDF in-browser translation
+- [ ] Image OCR + translation
+- [ ] TTS for translated content
+- [ ] Team glossary management
+- [ ] API for third-party integrations
+
+---
+
+## Installation
+
+1. Clone this repository
 2. Open `chrome://extensions/` in Chrome
-3. Enable **Developer mode** (top-right toggle)
-4. Click **Load unpacked** and select this project folder
-5. Click the extension icon → enter your **DeepSeek API Key**
+3. Enable **Developer mode** (top-right)
+4. Click **Load unpacked** and select the `Chrome translator/` folder
+5. Click the extension icon → Settings → enter your API key
 
-### Get a DeepSeek API Key
+Currently supports [DeepSeek API](https://platform.deepseek.com/). More providers coming soon.
 
-1. Visit [platform.deepseek.com](https://platform.deepseek.com/)
-2. Sign up and create an API key
-3. Paste it in the extension's Settings page
+---
 
-## 🗂️ Project Structure | 项目结构
+## Project Structure
 
 ```
 Chrome translator/
-├── manifest.json        # Extension manifest (MV3)
-├── background.js        # Service worker (API calls to DeepSeek)
-├── content.js           # Content script (page & subtitle translation)
-├── content.css          # Styles for subtitle overlay & transcript panel
+├── manifest.json        # Extension manifest (Manifest V3)
+├── background.js        # Service worker — API gateway & context menus
+├── content.js           # Content script — page translation & subtitle engine
+├── content.css          # Subtitle overlay & transcript panel styles
 ├── popup.html / .js     # Extension popup UI
-├── options.html / .js   # Settings page
-├── styles.css           # Popup & options styling
+├── options.html / .js   # Settings — API config & domain management
+├── styles.css           # Shared UI styles
 ├── utils/
-│   └── logger.js        # Logging utility
+│   └── logger.js        # Structured logging with persistence
 └── icons/
     ├── icon16.png
     ├── icon48.png
     └── icon128.png
 ```
 
-## ⚙️ Configuration | 配置说明
+---
 
-Open the extension Settings page to configure:
+## Contributing
 
-| Setting | Description |
-|---------|-------------|
-| **API Key** | Your DeepSeek API key |
-| **Model** | DeepSeek model to use (default: `deepseek-chat`) |
-| **Auto-translate** | Automatically translate pages on load |
-| **Excluded domains** | Domains to skip auto-translation |
+Contributions welcome. Fork, branch, commit, PR.
 
-## 🛠️ Development | 开发指南
+## License
 
-### Prerequisites
-- Google Chrome (or Chromium-based browser)
-- A DeepSeek API key
-
-### Making Changes
-1. Edit the source files
-2. Go to `chrome://extensions/`
-3. Click the **refresh** button on the extension card
-4. Reload the target webpage
-
-### Key Architecture Decisions
-- **MutationObserver** for detecting dynamic content changes
-- **Parent-element annotation** (`data-deepseek-original/translated`) for anti-flicker on SPA frameworks
-- **Structural check** (`[data-deepseek-ui]`) to prevent observer loops
-- **Context-aware subtitle translation** — sends surrounding subtitles as context for better coherence
-
-## 🤝 Contributing | 参与贡献
-
-Contributions are welcome! Please:
-
-1. Fork this repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [DeepSeek AI](https://deepseek.com/) for the translation API
-- Built with Chrome Extension Manifest V3
+MIT — Copyright (c) 2026 Jie Liu

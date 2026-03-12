@@ -1,2 +1,5 @@
-# chrome_translator
-A Chrome extension powered by DeepSeek AI for webpage translation and bilingual video subtitles. Supports Video.js &amp; JW Player. 由DeepSeek AI驱动的Chrome翻译插件，支持网页翻译和视频双语字幕。
+# LinguaBridge
+
+AI-powered Chrome extension for omnidirectional web translation and bilingual video subtitles. Translates any webpage (SPA/Shadow DOM compatible) and adds real-time bilingual captions to online course videos, with one-click transcript export. Any language to any language.
+
+**[Documentation →](Chrome%20translator/README.md)**

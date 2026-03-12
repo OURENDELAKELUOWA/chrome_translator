@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "DeepSeek Translator | 深度求索翻译",
+  "name": "LinguaBridge — AI Web Translator & Subtitle Engine",
   "version": "1.0.0",
-  "description": "High-quality translations powered by DeepSeek AI. / 由 DeepSeek AI 驱动的高质量翻译插件。",
+  "description": "AI-powered universal web translation and bilingual video subtitles. Translate any webpage, add real-time bilingual captions to online courses.",
   "permissions": [
     "storage",
     "activeTab",
