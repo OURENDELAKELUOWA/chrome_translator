@@ -1,89 +1,60 @@
-# LinguaBridge — AI-Powered Universal Web Translation Engine
+# LinguaBridge
 
-> Break every language barrier on the web. Translate, learn, and capture knowledge — any language to any language.
+> Omnidirectional web translation and bilingual video subtitles — any language to any language.
 
-![Chrome Extension](https://img.shields.io/badge/Platform-Chrome-brightgreen) ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue) ![License](https://img.shields.io/badge/License-MIT-yellow) ![AI Powered](https://img.shields.io/badge/AI-Multi--Provider-purple)
+![Chrome Extension](https://img.shields.io/badge/Platform-Chrome-brightgreen) ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-**LinguaBridge** is a Chrome extension that erases language boundaries across the entire web. It's not just a translator — it's a **language learning companion** and **knowledge capture tool**. Unlike traditional translators that handle only static text in one direction, LinguaBridge understands modern web architecture — SPAs, Shadow DOM, dynamic content, and live video subtitles — delivering seamless, context-aware translations **between any languages**, while helping users learn new languages and convert video/web content into organized, downloadable knowledge.
-
----
-
-## The Problem
-
-**The internet is fragmented by language.** Not just for non-English speakers — for everyone:
-
-- A **Silicon Valley engineer** watching a cutting-edge AI lecture on Bilibili (Chinese) has no subtitle support
-- A **Japanese researcher** reading a German medical paper can't translate it without breaking the page layout
-- A **Spanish-speaking student** taking a Korean online course gets zero bilingual subtitle help
-- A **Chinese developer** browsing Russian Stack Overflow answers loses hours to copy-paste workflows
-- An **American investor** monitoring French, Japanese, and Arabic news sites needs real-time page translation
-
-**Language barriers are omnidirectional.** The $65B translation market isn't about English — it's about **7,000+ languages** and the billions of people who need to cross between them daily. Yet existing tools (Google Translate, DeepL) only handle static text, break on modern web apps, completely ignore video content, and treat translation as a one-way English problem.
-
-**And translation is only half the story.** Users don't just want to read foreign content — they want to **learn from it** and **keep the knowledge**. A student watching a 2-hour course in another language has no way to capture the content as searchable, bilingual notes. A language learner browsing foreign websites has no way to build vocabulary in context. The knowledge in foreign-language videos vanishes the moment the browser tab closes.
-
-## The Solution
-
-LinguaBridge is a **universal translation layer** — any language to any language — that sits between the user and the web:
-
-- **Any webpage, any language** — Fully translated with original layout preserved. Chinese→English, English→Japanese, Spanish→Korean — all directions
-- **Any video, any language** — Bilingual subtitles in real-time. Watch a Chinese tech talk with English subs, or a French documentary with Japanese subs
-- **Any context** — AI understands surrounding content for natural, coherent translations across 50+ language pairs
-- **Learn while you browse** — bilingual hover tooltips build vocabulary in context; bilingual transcripts turn video courses into downloadable study notes
-- **Knowledge capture** — one-click export of bilingual transcripts with timestamps, turning ephemeral video content into permanent, searchable knowledge
+LinguaBridge is a Chrome extension for translating webpages and video subtitles between any languages. It handles modern web architecture (SPAs, Shadow DOM, dynamic content) and provides real-time bilingual subtitle overlays for online course videos — with one-click transcript export for study and reference.
 
 ---
 
-## Core Features
+## Features
 
-### Intelligent Page Translation
-- **Full-page translation** with deep DOM traversal and intelligent text node detection
-- **Shadow DOM penetration** — works inside Web Components, custom elements, and complex widget trees
-- **SPA-aware rendering** — handles React, Vue, Angular re-renders without flickering (via parent-element annotation with `data-linguabridge-original/translated`)
-- **Context-preserving translation** — sends adjacent text segments together so split-sentence HTML (bold, links, spans) translates as coherent prose
-- **Hover tooltip** — hover over any translated text to see the original instantly
-- **Toggle hotkey** (Alt+Q) — switch between original and translated text globally
+### Page Translation
+- Full-page translation with deep DOM traversal and text node detection
+- Shadow DOM penetration — works inside Web Components and custom element trees
+- SPA-compatible — handles React, Vue, Angular re-renders without flickering
+- Context-preserving — groups adjacent text nodes across `<b>`, `<a>`, `<span>` for coherent sentence-level translation
+- Hover tooltip — see original text on hover for any translated element
+- Toggle hotkey (Alt+Q) — switch between original and translated text globally
 
-### Video Subtitle Translation Engine
-- **Bilingual subtitle overlay** — native-language translation displayed below original captions in real-time
-- **Context-aware subtitle translation** — sends surrounding subtitle lines as context for more natural, coherent translations
-- **Live transcript panel** — synchronized, scrolling bilingual transcript alongside the video
-- **Transcript export** — download bilingual subtitles as `.txt` with course metadata
-- **Multi-player support** — Video.js (Great Learning / Olympus) and JW Player (Skilljar / Anthropic Academy)
+### Video Subtitle Translation
+- Bilingual subtitle overlay — translated captions rendered below originals in real-time
+- Context-aware — sends surrounding subtitle lines as context for natural, coherent translations
+- Live transcript panel — synchronized, scrolling bilingual transcript alongside the video
+- Transcript export — download bilingual subtitles as `.txt` with timestamps and course metadata
+- Supported players: Video.js (Great Learning / Olympus), JW Player (Skilljar / Anthropic Academy)
 
-### AI Translation Pipeline
-- **Multi-provider architecture** — pluggable AI backend (DeepSeek V3/R1, with architecture ready for Claude, GPT, Gemini)
-- **Batch translation** — groups text nodes intelligently for fewer API calls and better context
-- **JSON-structured prompts** — ensures consistent, parseable translation output
-- **Translation caching** — in-memory cache prevents redundant API calls for repeated content
-- **Token usage tracking** — real-time monitoring of API consumption
+### Knowledge Capture
+- Video → text — turn hours of video content into downloadable, searchable bilingual notes with one click
+- Structured export — timestamps, course name, video title included; ready for Notion, Obsidian, or any note-taking workflow
+- Bilingual output — every translation preserves both languages, useful for language learners building vocabulary in context
 
-### Learning & Knowledge Capture
-- **Bilingual reading mode** — original and translated text side by side, ideal for language learners who want to see both versions
-- **Video → Knowledge conversion** — bilingual transcripts from any video course, one-click download as structured text, turning hours of video into searchable, storable notes
-- **Transcript export with metadata** — download bilingual subtitles as `.txt` with course name, video title, and timestamps — ready for note-taking apps (Notion, Obsidian, etc.)
-- **Hover-to-learn** — hover over any translated word/sentence to see the original, building vocabulary in context rather than through flashcards
-- **Context-rich bilingual output** — every translation preserves both languages, so users absorb new vocabulary naturally while consuming content they care about
+### Translation Engine
+- Multi-provider architecture — pluggable AI backend (currently DeepSeek V3/R1; Claude, GPT, Gemini planned)
+- Batch translation with intelligent node grouping for fewer API calls and better context
+- JSON-structured prompts for consistent, parseable output
+- In-memory translation cache to avoid redundant API calls
+- Real-time token usage tracking
 
-### Smart Automation
-- **Auto-translate on page load** — configurable per-domain whitelist/blacklist
-- **Domain exclusion** — one-click toggle to disable translation on specific sites
-- **Right-click translation** — select any text and translate via context menu
+### Automation
+- Auto-translate on page load (configurable)
+- Per-domain exclusion list
+- Right-click context menu translation for selected text
+- 8 target languages with auto-detection
 
 ---
 
 ## Supported Platforms
 
-| Platform | Page Translation | Video Subtitles | Primary Languages | Notes |
-|----------|:---:|:---:|-------|-------|
-| Any website | Yes | — | All → All | Universal page translation |
-| Great Learning (Olympus) | Yes | Yes | EN → Any | Video.js player integration |
-| Skilljar (Anthropic Academy) | Yes | Yes | EN → Any | JW Player integration |
-| YouTube | Yes | Planned | All → All | Phase 2 — world's largest video platform |
-| Bilibili | Yes | Planned | ZH → Any | Phase 2 — 340M MAU Chinese video platform |
-| Niconico | Yes | Planned | JA → Any | Phase 2 — Japanese video platform |
-| Coursera / Udemy / edX | Yes | Planned | EN → Any | Phase 2 — online education |
-| VK Video | Yes | Planned | RU → Any | Phase 2 — Russian video platform |
+| Platform | Page | Subtitles | Notes |
+|----------|:---:|:---:|-------|
+| Any website | Yes | — | Universal |
+| Great Learning (Olympus) | Yes | Yes | Video.js |
+| Skilljar (Anthropic Academy) | Yes | Yes | JW Player |
+| YouTube | Yes | Planned | |
+| Bilibili | Yes | Planned | |
+| Coursera / Udemy / edX | Yes | Planned | |
 
 ---
 
@@ -96,7 +67,7 @@ LinguaBridge is a **universal translation layer** — any language to any langua
 │  Popup UI    │   Options Page   │   Background Worker   │
 │  (popup.*)   │   (options.*)    │   (background.js)     │
 │              │                  │   - API gateway       │
-│              │                  │   - Port connections   │
+│              │                  │   - Port management   │
 │              │                  │   - Context menus     │
 ├──────────────┴──────────────────┴───────────────────────┤
 │                   Content Script Layer                   │
@@ -110,7 +81,7 @@ LinguaBridge is a **universal translation layer** — any language to any langua
 │  └─────────────────────┘  └───────────────────────────┘ │
 ├─────────────────────────────────────────────────────────┤
 │              AI Translation Pipeline                     │
-│  - Multi-provider abstraction (DeepSeek, Claude, GPT)   │
+│  - Multi-provider abstraction                            │
 │  - Batch grouping & context injection                    │
 │  - JSON-structured response parsing                      │
 │  - In-memory translation cache                           │
@@ -120,116 +91,73 @@ LinguaBridge is a **universal translation layer** — any language to any langua
 
 ---
 
-## Technology Deep Dive
+## Technical Design Notes
 
-### Why This Is Hard (Technical Moats)
+### SPA Anti-Flicker
+Modern SPAs constantly re-render DOM nodes, which causes visible flickering with naive translation approaches. LinguaBridge stores translated state on parent elements (`data-linguabridge-original`, `data-linguabridge-translated`). When a framework re-renders a child text node, the MutationObserver detects the parent's annotation and restores the translation instantly — no flicker, no re-translation.
 
-**1. SPA Anti-Flicker System**
-Modern SPAs (React, Vue, Angular) constantly re-render DOM nodes. Naive translation approaches cause visible flickering as nodes are destroyed and recreated. LinguaBridge solves this with a **parent-element annotation strategy**: translated state is stored on parent elements (`data-linguabridge-original`, `data-linguabridge-translated`), so when a framework re-renders a child text node, the observer detects the parent's annotation and instantly restores the translation — zero flicker, zero re-translation.
+### Shadow DOM Traversal
+Standard `querySelectorAll` cannot reach inside shadow roots. LinguaBridge implements recursive shadow root traversal to discover and observe text nodes across the entire component tree, including nested shadow boundaries.
 
-**2. Shadow DOM Traversal**
-Many modern web apps use Shadow DOM for encapsulation (custom elements, design systems, embedded widgets). Standard `querySelectorAll` cannot reach inside shadow roots. LinguaBridge implements **recursive shadow root traversal**, discovering and observing text nodes across the entire component tree, including nested shadow boundaries.
+### Context-Aware Translation
+HTML frequently splits sentences across multiple elements (`<b>`, `<a>`, `<span>`). Translating each node independently breaks grammar. LinguaBridge groups adjacent text nodes and sends them as a JSON array with cross-node context, producing translations that read as natural prose.
 
-**3. Context-Aware Translation Pipeline**
-HTML frequently splits logical sentences across multiple elements (`<b>`, `<a>`, `<span>`). Translating each node independently produces grammatically broken output. LinguaBridge groups adjacent text nodes and sends them as a JSON array with explicit instructions for the AI to consider cross-node context, producing translations that read as natural prose when rendered.
+### Video Subtitle Synchronization
+Video players (Video.js, JW Player) use different APIs and cue event systems. LinguaBridge abstracts over them with a unified cue observer that maintains a sliding context window of surrounding subtitles and renders translated overlays in sync with the timeline, without blocking native player controls.
 
-**4. Video Subtitle Synchronization**
-Video players use different APIs and cue event systems. LinguaBridge abstracts over Video.js and JW Player with a **unified cue observer** that detects active captions, maintains a sliding context window of surrounding subtitles, and renders translated overlays in sync with the video timeline — all without blocking native player controls.
-
-**5. MutationObserver Architecture**
-A single global MutationObserver watches the entire document (including dynamically added shadow roots) for new text nodes. A structural check (`[data-linguabridge-ui]`) prevents observer loops from our own UI injections. Debounced batch processing ensures minimal performance impact even on heavy SPAs.
+### MutationObserver Design
+A single global MutationObserver watches the entire document (including dynamically added shadow roots). A structural check (`[data-linguabridge-ui]`) prevents observer loops from our own UI injections. Debounced batch processing minimizes performance impact on heavy SPAs.
 
 ---
 
-## Product Roadmap
+## Roadmap
 
-### Phase 1: Core Engine (Current — Shipped)
-- [x] Full-page translation with Shadow DOM support (any language → any language)
+### Shipped
+- [x] Full-page translation with Shadow DOM support
 - [x] SPA anti-flicker system
 - [x] Bilingual video subtitle overlay (Video.js + JW Player)
 - [x] Live transcript panel with bilingual export
 - [x] Translation caching & token tracking
 - [x] Auto-translate with domain exclusion
-- [x] Context menu translation for selected text
+- [x] Context menu translation
 - [x] 8-language support with auto-detection
 
-### Phase 2: Universal Media — Any Video, Any Language (Next)
-- [ ] YouTube subtitle translation (English↔Chinese, English↔Japanese, Spanish↔Korean, all directions)
-- [ ] Bilibili / Niconico / VK Video subtitle translation (Chinese/Japanese/Russian → any language)
+### Next: Broader Video Platform Support
+- [ ] YouTube / Bilibili / Niconico / Vimeo subtitle translation
 - [ ] Coursera / Udemy / edX course subtitle support
-- [ ] Vimeo / Dailymotion / embedded HTML5 video support
-- [ ] PDF in-browser translation overlay
-- [ ] Image OCR + translation (screenshots, diagrams, infographics)
+- [ ] Generic HTML5 video + embedded player support
 - [ ] Multi-provider AI backend (Claude, GPT, Gemini, local models)
-- [ ] Expand to 50+ language pairs with quality optimization per pair
+- [ ] Expand to 50+ language pairs
 
-### Phase 3: Learning Engine & Translation Intelligence
-- [ ] **Vocabulary builder** — auto-collect new words encountered during browsing, with context sentences
-- [ ] **Spaced repetition integration** — export learned vocabulary to Anki / Quizlet for long-term retention
-- [ ] **Video knowledge base** — organize exported transcripts by course/topic, searchable personal library
-- [ ] **AI-powered study notes** — auto-summarize video transcripts into key points and study guides
-- [ ] **One-click export to Notion / Obsidian / Google Docs** — structured bilingual notes with timestamps
-- [ ] Translation Memory — learn from user corrections, build personal glossary per language pair
-- [ ] Domain-specific terminology packs (Medical, Legal, Engineering, Finance) × multiple languages
-- [ ] Collaborative translation — community-powered improvements for underserved language pairs
-- [ ] Offline mode with on-device models (Chrome Built-in AI / WebLLM)
-- [ ] Pronunciation & TTS for translated content in 20+ languages
+### Planned: Learning & Intelligence
+- [ ] Vocabulary builder — auto-collect words from browsing with context
+- [ ] Spaced repetition export (Anki / Quizlet)
+- [ ] Video knowledge base — organize transcripts by course/topic
+- [ ] AI-powered study note generation from transcripts
+- [ ] One-click export to Notion / Obsidian / Google Docs
+- [ ] Translation memory with user correction learning
+- [ ] Domain-specific terminology packs (medical, legal, engineering)
+- [ ] Offline mode with on-device models
 
-### Phase 4: Global Platform & Monetization
-- [ ] Translation analytics dashboard (pages translated, time saved, language heatmap)
-- [ ] Team glossary & terminology management for multinational enterprises
-- [ ] API for third-party integrations (CMS, LMS, knowledge bases)
+### Future
 - [ ] Cross-browser support (Firefox, Safari, Edge)
-- [ ] Freemium model: free basic translation, Pro for video subtitles + advanced AI + priority language pairs
-- [ ] Regional pricing for global accessibility (not just USD pricing)
-- [ ] Language community hubs — users contribute glossaries for their language pairs
-
----
-
-## Market Opportunity
-
-**Language barriers are a universal, omnidirectional problem — not an English-only problem.**
-
-| Metric | Value |
-|--------|-------|
-| Global language services market | $65B+ (2025), projected $95B+ by 2030 |
-| Chrome users worldwide | 3.4 billion |
-| People who regularly consume content in a non-native language | 2.4 billion+ |
-| Cross-border e-commerce shoppers | 900 million+ |
-| Online education market | $300B+ and growing 10% YoY |
-| Remote cross-border workers | 73 million and growing |
-| Bilibili monthly active users (Chinese video) | 340 million |
-| Non-English YouTube content | 66% of all videos |
-
-### User Scenarios Across Every Direction
-
-| User | From Language | To Language | Scenario |
-|------|:---:|:---:|---------|
-| US engineer | Chinese | English | Watching AI lectures on Bilibili |
-| Japanese student | English | Japanese | Taking Coursera courses |
-| French researcher | German | French | Reading medical journals |
-| Korean marketer | Spanish | Korean | Monitoring Latin American social media |
-| Brazilian developer | Russian | Portuguese | Browsing Stack Overflow answers |
-| Chinese investor | English/Japanese | Chinese | Reading global financial news |
-| Arabic journalist | French/English | Arabic | Covering international events |
-
-**The gap**: Every existing tool treats translation as "help non-English speakers read English." The reality is billions of people need **any-to-any** language translation — across webpages AND video content — and no tool does this well on modern web apps. LinguaBridge is the **first truly omnidirectional web translation engine** with video subtitle support.
+- [ ] PDF in-browser translation
+- [ ] Image OCR + translation
+- [ ] TTS for translated content
+- [ ] Team glossary management
+- [ ] API for third-party integrations
 
 ---
 
 ## Installation
 
-### From Source (Developer Mode)
-
 1. Clone this repository
 2. Open `chrome://extensions/` in Chrome
 3. Enable **Developer mode** (top-right)
 4. Click **Load unpacked** and select the `Chrome translator/` folder
-5. Click the extension icon → Settings → enter your AI API Key
+5. Click the extension icon → Settings → enter your API key
 
-### Get an API Key
-
-Visit [platform.deepseek.com](https://platform.deepseek.com/) to create an API key (more providers coming in Phase 2).
+Currently supports [DeepSeek API](https://platform.deepseek.com/). More providers coming soon.
 
 ---
 
@@ -238,12 +166,12 @@ Visit [platform.deepseek.com](https://platform.deepseek.com/) to create an API k
 ```
 Chrome translator/
 ├── manifest.json        # Extension manifest (Manifest V3)
-├── background.js        # Service worker — AI API gateway & context menus
+├── background.js        # Service worker — API gateway & context menus
 ├── content.js           # Content script — page translation & subtitle engine
 ├── content.css          # Subtitle overlay & transcript panel styles
 ├── popup.html / .js     # Extension popup UI
 ├── options.html / .js   # Settings — API config & domain management
-├── styles.css           # Shared UI styles (dark mode support)
+├── styles.css           # Shared UI styles
 ├── utils/
 │   └── logger.js        # Structured logging with persistence
 └── icons/
@@ -256,8 +184,8 @@ Chrome translator/
 
 ## Contributing
 
-Contributions welcome! Fork, branch, commit, PR. See [LICENSE](LICENSE) for terms.
+Contributions welcome. Fork, branch, commit, PR.
 
 ## License
 
-MIT License — Copyright (c) 2026 Jie Liu
+MIT — Copyright (c) 2026 Jie Liu

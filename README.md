@@ -1,5 +1,5 @@
 # LinguaBridge
 
-AI-powered Chrome extension for universal web translation and bilingual video subtitles. Translates any webpage with SPA/Shadow DOM support, and adds real-time bilingual subtitles to online course videos (Video.js & JW Player). Built on Manifest V3 with a multi-provider AI translation pipeline.
+AI-powered Chrome extension for omnidirectional web translation and bilingual video subtitles. Translates any webpage (SPA/Shadow DOM compatible) and adds real-time bilingual captions to online course videos, with one-click transcript export. Any language to any language.
 
-**[Read full documentation →](Chrome%20translator/README.md)**
+**[Documentation →](Chrome%20translator/README.md)**
